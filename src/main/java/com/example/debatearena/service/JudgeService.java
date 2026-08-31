@@ -11,7 +11,7 @@ import com.example.debatearena.domain.JudgeResult;
 
 @Service
 public class JudgeService {
-    
+
     private final ChatClient chatClient;
 
     @Value("classpath:/prompts/judge.st")
@@ -21,9 +21,10 @@ public class JudgeService {
         this.chatClient = chatClientBuilder.build();
     }
 
-    public JudgeResult evaluateRound1(
+    public JudgeResult evaluateRound(
             DebateSession session,
-            DebateRound round
+            DebateRound round,
+            String roundObjective
     ) {
         return chatClient
                 .prompt()
@@ -47,7 +48,7 @@ public class JudgeService {
                         )
                         .param(
                                 "roundObjective",
-                                "각 진영이 자신의 핵심 주장과 근거를 명확하게 제시한다."
+                                roundObjective
                         )
                         .param(
                                 "userArgument",
@@ -58,7 +59,9 @@ public class JudgeService {
                                 round.getAiArgument()
                         )
                 )
-                .user("두 토론자의 Round 1 발언을 공정하게 평가하세요.")
+                .user(
+                        "두 토론자의 현재 라운드 발언을 공정하게 평가하세요."
+                )
                 .call()
                 .entity(
                         JudgeResult.class,

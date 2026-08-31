@@ -205,9 +205,10 @@ public class DebateService {
                 );
 
         JudgeResult judgeResult =
-                judgeService.evaluateRound1(
+                judgeService.evaluateRound(
                         session,
-                        round
+                        round,
+                        "각 진영이 자신의 핵심 주장과 근거를 명확하게 제시한다."
                 );
 
         RoundScore roundScore =
@@ -286,6 +287,49 @@ public class DebateService {
         round.setAiArgument(aiArgument);
 
         session.setStatus("ROUND_2_ARGUMENTS_COMPLETE");
+
+        return round;
+    }
+
+    public DebateRound evaluateRound2(String sessionId) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_2_ARGUMENTS_COMPLETE"
+                .equals(session.getStatus())) {
+
+            throw new IllegalStateException(
+                    "양측의 Round 2 반박이 완료된 후 평가할 수 있습니다."
+            );
+        }
+
+        DebateRound round = session.getRounds()
+                .stream()
+                .filter(item ->
+                        item.getRoundNumber() == 2
+                )
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Round 2 정보를 찾을 수 없습니다."
+                        )
+                );
+
+        JudgeResult judgeResult =
+                judgeService.evaluateRound(
+                        session,
+                        round,
+                        "상대방이 이전 라운드에서 제시한 핵심 주장에 직접적이고 논리적으로 반박한다."
+                );
+
+        RoundScore roundScore =
+                scoreService.calculate(judgeResult);
+
+        round.setJudgeResult(judgeResult);
+        round.setRoundScore(roundScore);
+
+        session.setStatus("ROUND_2_EVALUATED");
 
         return round;
     }
