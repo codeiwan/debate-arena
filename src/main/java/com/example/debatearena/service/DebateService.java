@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
+import com.example.debatearena.domain.DebateRound;
 import com.example.debatearena.domain.DebateSession;
 import com.example.debatearena.domain.DebateTopic;
 
@@ -103,5 +104,63 @@ public class DebateService {
         }
 
         return session;
+    }
+
+    public DebateRound startRound1(String sessionId) {
+
+        DebateSession session = getRequiredSession(sessionId);
+
+        if (!"POSITION_SELECTED".equals(session.getStatus())) {
+            throw new IllegalStateException(
+                    "입장을 선택한 후 Round 1을 시작할 수 있습니다."
+            );
+        }
+
+        String aiArgument =
+                debateAiService.generateOpeningArgument(session);
+
+        DebateRound round = new DebateRound(1);
+        round.setAiArgument(aiArgument);
+
+        session.getRounds().add(round);
+        session.setStatus("ROUND_1_AI_DONE");
+
+        return round;
+    }
+
+    public DebateRound submitRound1Argument(
+            String sessionId,
+            String userArgument
+    ) {
+
+        DebateSession session = getRequiredSession(sessionId);
+
+        if (!"ROUND_1_AI_DONE".equals(session.getStatus())) {
+            throw new IllegalStateException(
+                    "AI의 Round 1 주장이 완료된 후 사용자 주장을 제출할 수 있습니다."
+            );
+        }
+
+        if (userArgument == null || userArgument.isBlank()) {
+            throw new IllegalArgumentException(
+                    "토론 주장을 입력해야 합니다."
+            );
+        }
+
+        DebateRound round = session.getRounds()
+                .stream()
+                .filter(item -> item.getRoundNumber() == 1)
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Round 1 정보를 찾을 수 없습니다."
+                        )
+                );
+
+        round.setUserArgument(userArgument);
+
+        session.setStatus("ROUND_1_ARGUMENTS_COMPLETE");
+
+        return round;
     }
 }

@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.debatearena.domain.DebateRound;
 import com.example.debatearena.domain.DebateSession;
 import com.example.debatearena.domain.DebateTopic;
+import com.example.debatearena.dto.ArgumentRequest;
 import com.example.debatearena.dto.PositionRequest;
 import com.example.debatearena.dto.TopicRequest;
 import com.example.debatearena.service.DebateService;
@@ -62,6 +64,24 @@ public class DebateController {
         return debateService.selectPosition(
                 sessionId,
                 request.side()
+        );
+    }
+
+    @PostMapping("/{sessionId}/rounds/1/start")
+    public DebateRound startRound1(
+            @PathVariable String sessionId
+    ) {
+        return debateService.startRound1(sessionId);
+    }
+
+    @PostMapping("/{sessionId}/rounds/1/argument")
+    public DebateRound submitRound1Argument(
+            @PathVariable String sessionId,
+            @RequestBody ArgumentRequest request
+    ) {
+        return debateService.submitRound1Argument(
+                sessionId,
+                request.argument()
         );
     }
 }

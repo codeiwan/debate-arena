@@ -1,6 +1,8 @@
 package com.example.debatearena.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DebateSession {
 
@@ -16,11 +18,14 @@ public class DebateSession {
 
     private int currentRound;
 
+    private final List<DebateRound> rounds;
+
     public DebateSession(String sessionId) {
         this.sessionId = sessionId;
         this.createdAt = LocalDateTime.now();
         this.status = "CREATED";
         this.currentRound = 0;
+        this.rounds = new ArrayList<>();
     }
 
     public String getSessionId() {
@@ -77,5 +82,9 @@ public class DebateSession {
 
     public void setCurrentRound(int currentRound) {
         this.currentRound = currentRound;
+    }
+
+    public List<DebateRound> getRounds() {
+        return rounds;
     }
 }
