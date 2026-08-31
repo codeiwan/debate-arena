@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.debatearena.domain.DebateRound;
 import com.example.debatearena.domain.DebateSession;
 import com.example.debatearena.domain.DebateTopic;
+import com.example.debatearena.domain.JudgeResult;
+import com.example.debatearena.domain.RoundScore;
 
 @Service
 public class DebateService {
@@ -17,9 +19,17 @@ public class DebateService {
             new ConcurrentHashMap<>();
 
     private final DebateAiService debateAiService;
+    private final JudgeService judgeService;
+    private final ScoreService scoreService;
 
-    public DebateService(DebateAiService debateAiService) {
+    public DebateService(
+            DebateAiService debateAiService,
+            JudgeService judgeService,
+            ScoreService scoreService
+    ) {
         this.debateAiService = debateAiService;
+        this.judgeService = judgeService;
+        this.scoreService = scoreService;
     }
 
     public DebateSession createSession() {
@@ -160,6 +170,48 @@ public class DebateService {
         round.setUserArgument(userArgument);
 
         session.setStatus("ROUND_1_ARGUMENTS_COMPLETE");
+
+        return round;
+    }
+
+    public DebateRound evaluateRound1(String sessionId) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_1_ARGUMENTS_COMPLETE"
+                .equals(session.getStatus())) {
+
+            throw new IllegalStateException(
+                    "양측의 Round 1 발언이 완료된 후 평가할 수 있습니다."
+            );
+        }
+
+        DebateRound round = session.getRounds()
+                .stream()
+                .filter(item ->
+                        item.getRoundNumber() == 1
+                )
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Round 1 정보를 찾을 수 없습니다."
+                        )
+                );
+
+        JudgeResult judgeResult =
+                judgeService.evaluateRound1(
+                        session,
+                        round
+                );
+
+        RoundScore roundScore =
+                scoreService.calculate(judgeResult);
+
+        round.setJudgeResult(judgeResult);
+        round.setRoundScore(roundScore);
+
+        session.setStatus("ROUND_1_EVALUATED");
 
         return round;
     }

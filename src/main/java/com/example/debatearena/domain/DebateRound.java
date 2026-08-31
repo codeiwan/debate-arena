@@ -7,6 +7,9 @@ public class DebateRound {
     private String aiArgument;
     private String userArgument;
 
+    private JudgeResult judgeResult;
+    private RoundScore roundScore;
+
     public DebateRound(int roundNumber) {
         this.roundNumber = roundNumber;
     }
@@ -29,5 +32,21 @@ public class DebateRound {
 
     public void setUserArgument(String userArgument) {
         this.userArgument = userArgument;
+    }
+
+    public JudgeResult getJudgeResult() {
+        return judgeResult;
+    }
+
+    public void setJudgeResult(JudgeResult judgeResult) {
+        this.judgeResult = judgeResult;
+    }
+
+    public RoundScore getRoundScore() {
+        return roundScore;
+    }
+
+    public void setRoundScore(RoundScore roundScore) {
+        this.roundScore = roundScore;
     }
 }

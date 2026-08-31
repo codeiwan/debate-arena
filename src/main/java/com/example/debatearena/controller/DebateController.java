@@ -84,4 +84,11 @@ public class DebateController {
                 request.argument()
         );
     }
+    
+    @PostMapping("/{sessionId}/rounds/1/evaluate")
+    public DebateRound evaluateRound1(
+            @PathVariable String sessionId
+    ) {
+        return debateService.evaluateRound1(sessionId);
+    }
 }
