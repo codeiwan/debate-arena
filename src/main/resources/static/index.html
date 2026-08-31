@@ -285,6 +285,94 @@
 
     </section>
 
+    <section id="round2-screen" class="screen">
+
+        <div class="panel wide">
+
+            <p class="step-label">ROUND 2</p>
+
+            <h2>Rebuttal</h2>
+
+            <p class="description">
+                상대방의 이전 주장에서 약점을 찾아 직접 반박하세요.
+            </p>
+
+            <div class="debate-layout">
+
+                <div class="speech-card user-card">
+                    <span class="speaker-label">YOU</span>
+
+                    <textarea
+                            id="round2-user-input"
+                            placeholder="AI의 Round 1 주장에 대한 반박을 입력하세요."
+                    ></textarea>
+
+                    <button
+                            id="round2-submit-button"
+                            class="primary-button"
+                    >
+                        SUBMIT REBUTTAL
+                    </button>
+                </div>
+
+                <div class="speech-card">
+                    <span class="speaker-label">AI</span>
+
+                    <p id="round2-ai-argument">
+                        당신의 반박을 기다리고 있습니다.
+                    </p>
+                </div>
+
+            </div>
+
+            <div
+                    id="round2-result"
+                    class="round-result hidden"
+            >
+                <h3>ROUND 2 RESULT</h3>
+
+                <div class="score-row">
+                    <span>YOU</span>
+                    <strong id="round2-user-percentage">0%</strong>
+                </div>
+
+                <div class="score-bar">
+                    <div
+                            id="round2-user-bar"
+                            class="score-fill"
+                    ></div>
+                </div>
+
+                <div class="score-row">
+                    <span>AI</span>
+                    <strong id="round2-ai-percentage">0%</strong>
+                </div>
+
+                <div class="score-bar">
+                    <div
+                            id="round2-ai-bar"
+                            class="score-fill"
+                    ></div>
+                </div>
+
+                <p
+                        id="round2-winner"
+                        class="round-winner"
+                ></p>
+
+                <button
+                        id="round3-button"
+                        class="primary-button"
+                >
+                    ENTER ROUND 3
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
     <!-- =========================================================
          LOADING
     ========================================================== -->

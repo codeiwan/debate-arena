@@ -80,6 +80,36 @@ const round1Winner =
 const round2Button =
     document.getElementById("round2-button");
 
+const round2UserInput =
+    document.getElementById("round2-user-input");
+
+const round2SubmitButton =
+    document.getElementById("round2-submit-button");
+
+const round2AiArgument =
+    document.getElementById("round2-ai-argument");
+
+const round2Result =
+    document.getElementById("round2-result");
+
+const round2UserPercentage =
+    document.getElementById("round2-user-percentage");
+
+const round2AiPercentage =
+    document.getElementById("round2-ai-percentage");
+
+const round2UserBar =
+    document.getElementById("round2-user-bar");
+
+const round2AiBar =
+    document.getElementById("round2-ai-bar");
+
+const round2Winner =
+    document.getElementById("round2-winner");
+
+const round3Button =
+    document.getElementById("round3-button");
+
 /* =========================================================
    SCREEN
 ========================================================= */
@@ -480,8 +510,151 @@ round2Button.addEventListener(
     "click",
     () => {
 
+        round2UserInput.value = "";
+
+        round2UserInput.disabled = false;
+        round2SubmitButton.disabled = false;
+
+        round2AiArgument.textContent =
+            "당신의 반박을 기다리고 있습니다.";
+
+        round2Result.classList.add("hidden");
+
+        showScreen("round2-screen");
+    }
+);
+
+round2SubmitButton.addEventListener(
+    "click",
+    async () => {
+
+        const argument =
+            round2UserInput.value.trim();
+
+        if (!argument) {
+
+            showError(
+                "Round 2 반박을 입력해주세요."
+            );
+
+            return;
+        }
+
+        try {
+
+            showLoading();
+
+            await apiRequest(
+                `/api/debates/${sessionId}/rounds/2/argument`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        argument: argument
+                    })
+                }
+            );
+
+
+            const aiRound =
+                await apiRequest(
+                    `/api/debates/${sessionId}/rounds/2/respond`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+            round2AiArgument.textContent =
+                aiRound.aiArgument;
+
+
+            const evaluatedRound =
+                await apiRequest(
+                    `/api/debates/${sessionId}/rounds/2/evaluate`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            displayRound2Result(
+                evaluatedRound.roundScore
+            );
+
+            round2UserInput.disabled = true;
+            round2SubmitButton.disabled = true;
+
+        } catch (error) {
+
+            showError(error.message);
+
+        } finally {
+
+            hideLoading();
+        }
+    }
+);
+
+function displayRound2Result(score) {
+
+    const userValue =
+        score.userPercentage;
+
+    const aiValue =
+        score.aiPercentage;
+
+
+    round2UserPercentage.textContent =
+        `${userValue}%`;
+
+    round2AiPercentage.textContent =
+        `${aiValue}%`;
+
+
+    round2Result.classList.remove(
+        "hidden"
+    );
+
+
+    requestAnimationFrame(() => {
+
+        round2UserBar.style.width =
+            `${userValue}%`;
+
+        round2AiBar.style.width =
+            `${aiValue}%`;
+    });
+
+
+    if (score.winner === "USER") {
+
+        round2Winner.textContent =
+            "ROUND WINNER — YOU";
+
+    } else if (score.winner === "AI") {
+
+        round2Winner.textContent =
+            "ROUND WINNER — AI";
+
+    } else {
+
+        round2Winner.textContent =
+            "ROUND RESULT — DRAW";
+    }
+}
+
+round3Button.addEventListener(
+    "click",
+    () => {
+
         alert(
-            "Round 2 UI는 다음 단계에서 연결합니다."
+            "Round 3 UI는 다음 단계에서 연결합니다."
         );
     }
 );
+
