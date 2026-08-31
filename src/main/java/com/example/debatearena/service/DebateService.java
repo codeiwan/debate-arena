@@ -169,6 +169,11 @@ public class DebateService {
 
         round.setUserArgument(userArgument);
 
+        debateAiService.rememberUserArgument(
+                session.getSessionId(),
+                userArgument
+        );
+
         session.setStatus("ROUND_1_ARGUMENTS_COMPLETE");
 
         return round;
@@ -212,6 +217,75 @@ public class DebateService {
         round.setRoundScore(roundScore);
 
         session.setStatus("ROUND_1_EVALUATED");
+
+        return round;
+    }
+
+    public DebateRound submitRound2Rebuttal(
+            String sessionId,
+            String userArgument
+    ) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_1_EVALUATED".equals(session.getStatus())) {
+            throw new IllegalStateException(
+                    "Round 1 평가가 완료된 후 Round 2를 시작할 수 있습니다."
+            );
+        }
+
+        if (userArgument == null || userArgument.isBlank()) {
+            throw new IllegalArgumentException(
+                    "반박 내용을 입력해야 합니다."
+            );
+        }
+
+        DebateRound round = new DebateRound(2);
+        round.setUserArgument(userArgument);
+
+        session.getRounds().add(round);
+
+        debateAiService.rememberUserArgument(
+                session.getSessionId(),
+                userArgument
+        );
+
+        session.setCurrentRound(2);
+        session.setStatus("ROUND_2_USER_DONE");
+
+        return round;
+    }
+
+    public DebateRound generateRound2AiRebuttal(
+            String sessionId
+    ) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_2_USER_DONE".equals(session.getStatus())) {
+            throw new IllegalStateException(
+                    "사용자의 Round 2 반박이 완료된 후 AI가 반박할 수 있습니다."
+            );
+        }
+
+        DebateRound round = session.getRounds()
+                .stream()
+                .filter(item -> item.getRoundNumber() == 2)
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Round 2 정보를 찾을 수 없습니다."
+                        )
+                );
+
+        String aiArgument =
+                debateAiService.generateRebuttal(session);
+
+        round.setAiArgument(aiArgument);
+
+        session.setStatus("ROUND_2_ARGUMENTS_COMPLETE");
 
         return round;
     }

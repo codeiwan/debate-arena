@@ -91,4 +91,24 @@ public class DebateController {
     ) {
         return debateService.evaluateRound1(sessionId);
     }
+
+    @PostMapping("/{sessionId}/rounds/2/argument")
+    public DebateRound submitRound2Argument(
+            @PathVariable String sessionId,
+            @RequestBody ArgumentRequest request
+    ) {
+        return debateService.submitRound2Rebuttal(
+                sessionId,
+                request.argument()
+        );
+    }
+
+    @PostMapping("/{sessionId}/rounds/2/respond")
+    public DebateRound generateRound2AiRebuttal(
+            @PathVariable String sessionId
+    ) {
+        return debateService.generateRound2AiRebuttal(
+                sessionId
+        );
+    }
 }
