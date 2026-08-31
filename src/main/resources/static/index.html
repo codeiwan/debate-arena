@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Debate Arena</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<main class="app">
+
+    <!-- =========================================================
+         START
+    ========================================================== -->
+    <section id="start-screen" class="screen active">
+
+        <div class="hero">
+
+            <p class="eyebrow">AI DEBATE GAME</p>
+
+            <h1>DEBATE ARENA</h1>
+
+            <p class="subtitle">
+                AI와 3라운드 동안 논리로 승부하세요.
+            </p>
+
+            <div class="rules">
+
+                <div class="rule-card">
+                    <strong>ROUND 1</strong>
+                    <span>Opening Argument</span>
+                </div>
+
+                <div class="rule-card">
+                    <strong>ROUND 2</strong>
+                    <span>Rebuttal</span>
+                </div>
+
+                <div class="rule-card">
+                    <strong>ROUND 3</strong>
+                    <span>Final Statement</span>
+                </div>
+
+            </div>
+
+            <button id="start-button" class="primary-button">
+                START BATTLE
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         TOPIC
+    ========================================================== -->
+    <section id="topic-screen" class="screen">
+
+        <div class="panel">
+
+            <p class="step-label">STEP 1</p>
+
+            <h2>무엇에 대해 토론할까요?</h2>
+
+            <p class="description">
+                자유롭게 입력하면 AI가 토론 가능한 논제로 정리합니다.
+            </p>
+
+            <textarea
+                    id="topic-input"
+                    placeholder="예: AI 코딩 도구에 대해서 토론하고 싶어"
+            ></textarea>
+
+            <button id="topic-button" class="primary-button">
+                CREATE DEBATE
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         POSITION
+    ========================================================== -->
+    <section id="position-screen" class="screen">
+
+        <div class="panel wide">
+
+            <p class="step-label">STEP 2</p>
+
+            <h2>Choose Your Side</h2>
+
+            <div class="topic-box">
+
+                <span>DEBATE TOPIC</span>
+
+                <p id="clarified-topic"></p>
+
+            </div>
+
+            <p class="description">
+                당신이 선택하지 않은 입장은 AI가 맡습니다.
+            </p>
+
+            <div class="position-grid">
+
+                <button
+                        id="position-a"
+                        class="position-card"
+                        data-side="A"
+                >
+                    <span class="side-label">SIDE A</span>
+                    <p id="position-a-text"></p>
+                    <strong>SELECT A</strong>
+                </button>
+
+
+                <div class="versus">
+                    VS
+                </div>
+
+
+                <button
+                        id="position-b"
+                        class="position-card"
+                        data-side="B"
+                >
+                    <span class="side-label">SIDE B</span>
+                    <p id="position-b-text"></p>
+                    <strong>SELECT B</strong>
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         READY
+    ========================================================== -->
+    <section id="ready-screen" class="screen">
+
+        <div class="panel">
+
+            <p class="step-label">MATCH READY</p>
+
+            <h2>토론 준비 완료</h2>
+
+            <div class="matchup">
+
+                <div class="fighter">
+
+                    <span>YOU</span>
+
+                    <p id="user-position"></p>
+
+                </div>
+
+                <div class="versus large">
+                    VS
+                </div>
+
+                <div class="fighter">
+
+                    <span>AI</span>
+
+                    <p id="ai-position"></p>
+
+                </div>
+
+            </div>
+
+            <p class="description">
+                이제 Round 1을 시작할 준비가 되었습니다.
+            </p>
+
+            <button
+                    id="round1-button"
+                    class="primary-button"
+            >
+                ENTER ROUND 1
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         LOADING
+    ========================================================== -->
+    <div id="loading" class="loading hidden">
+
+        <div class="spinner"></div>
+
+        <span>AI is thinking...</span>
+
+    </div>
+
+
+    <!-- =========================================================
+         ERROR
+    ========================================================== -->
+    <div id="error-message" class="error-message hidden"></div>
+
+</main>
+
+<script src="/app.js"></script>
+
+</body>
+</html>
