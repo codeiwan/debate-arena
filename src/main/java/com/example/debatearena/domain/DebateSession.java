@@ -20,6 +20,8 @@ public class DebateSession {
 
     private final List<DebateRound> rounds;
 
+    private FinalVerdict finalVerdict;
+
     public DebateSession(String sessionId) {
         this.sessionId = sessionId;
         this.createdAt = LocalDateTime.now();
@@ -86,5 +88,13 @@ public class DebateSession {
 
     public List<DebateRound> getRounds() {
         return rounds;
+    }
+
+    public FinalVerdict getFinalVerdict() {
+        return finalVerdict;
+    }
+
+    public void setFinalVerdict(FinalVerdict finalVerdict) {
+        this.finalVerdict = finalVerdict;
     }
 }

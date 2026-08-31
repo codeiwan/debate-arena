@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.debatearena.domain.DebateRound;
 import com.example.debatearena.domain.DebateSession;
 import com.example.debatearena.domain.DebateTopic;
+import com.example.debatearena.domain.FinalVerdict;
 import com.example.debatearena.dto.ArgumentRequest;
 import com.example.debatearena.dto.PositionRequest;
 import com.example.debatearena.dto.TopicRequest;
@@ -142,5 +143,12 @@ public class DebateController {
             @PathVariable String sessionId
     ) {
         return debateService.evaluateRound3(sessionId);
+    }
+
+    @PostMapping("/{sessionId}/finalize")
+    public FinalVerdict finalizeDebate(
+            @PathVariable String sessionId
+    ) {
+    return debateService.finalizeDebate(sessionId);
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.debatearena.domain.DebateRound;
 import com.example.debatearena.domain.DebateSession;
 import com.example.debatearena.domain.DebateTopic;
+import com.example.debatearena.domain.FinalJudgeResult;
+import com.example.debatearena.domain.FinalVerdict;
 import com.example.debatearena.domain.JudgeResult;
 import com.example.debatearena.domain.RoundScore;
 
@@ -442,5 +444,46 @@ public class DebateService {
         session.setStatus("ROUND_3_EVALUATED");
 
         return round;
+    }
+
+    public FinalVerdict finalizeDebate(String sessionId) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_3_EVALUATED".equals(session.getStatus())) {
+            throw new IllegalStateException(
+                    "Round 3 평가가 완료된 후 최종 판정을 생성할 수 있습니다."
+            );
+        }
+
+        if (session.getRounds().size() != 3) {
+            throw new IllegalStateException(
+                    "3개의 라운드가 모두 완료되어야 합니다."
+            );
+        }
+
+        RoundScore finalScore =
+                scoreService.calculateFinalScore(session);
+
+        FinalJudgeResult finalJudgeResult =
+                judgeService.evaluateFinal(
+                        session,
+                        finalScore
+                );
+
+        FinalVerdict finalVerdict =
+                new FinalVerdict(
+                        finalScore.userPercentage(),
+                        finalScore.aiPercentage(),
+                        finalScore.winner(),
+                        finalJudgeResult.summary(),
+                        finalJudgeResult.decisiveFactors()
+                );
+
+        session.setFinalVerdict(finalVerdict);
+        session.setStatus("COMPLETED");
+
+        return finalVerdict;
     }
 }
