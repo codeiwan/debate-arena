@@ -110,6 +110,57 @@ const round2Winner =
 const round3Button =
     document.getElementById("round3-button");
 
+const round3AiArgument =
+    document.getElementById("round3-ai-argument");
+
+const round3UserInput =
+    document.getElementById("round3-user-input");
+
+const round3SubmitButton =
+    document.getElementById("round3-submit-button");
+
+const round3Result =
+    document.getElementById("round3-result");
+
+const round3UserPercentage =
+    document.getElementById("round3-user-percentage");
+
+const round3AiPercentage =
+    document.getElementById("round3-ai-percentage");
+
+const round3UserBar =
+    document.getElementById("round3-user-bar");
+
+const round3AiBar =
+    document.getElementById("round3-ai-bar");
+
+const round3Winner =
+    document.getElementById("round3-winner");
+
+const finalButton =
+    document.getElementById("final-button");
+
+const finalUserPercentage =
+    document.getElementById("final-user-percentage");
+
+const finalAiPercentage =
+    document.getElementById("final-ai-percentage");
+
+const finalUserBar =
+    document.getElementById("final-user-bar");
+
+const finalWinner =
+    document.getElementById("final-winner");
+
+const finalSummary =
+    document.getElementById("final-summary");
+
+const finalFactors =
+    document.getElementById("final-factors");
+
+const restartButton =
+    document.getElementById("restart-button");
+
 /* =========================================================
    SCREEN
 ========================================================= */
@@ -650,11 +701,239 @@ function displayRound2Result(score) {
 
 round3Button.addEventListener(
     "click",
-    () => {
+    async () => {
 
-        alert(
-            "Round 3 UI는 다음 단계에서 연결합니다."
-        );
+        try {
+
+            showLoading();
+
+            const round =
+                await apiRequest(
+                    `/api/debates/${sessionId}/rounds/3/start`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+            round3AiArgument.textContent =
+                round.aiArgument;
+
+            round3UserInput.value = "";
+            round3UserInput.disabled = false;
+            round3SubmitButton.disabled = false;
+
+            round3Result.classList.add("hidden");
+
+            showScreen("round3-screen");
+
+        } catch (error) {
+
+            showError(error.message);
+
+        } finally {
+
+            hideLoading();
+        }
     }
 );
 
+round3SubmitButton.addEventListener(
+    "click",
+    async () => {
+
+        const argument =
+            round3UserInput.value.trim();
+
+        if (!argument) {
+
+            showError(
+                "최종 변론을 입력해주세요."
+            );
+
+            return;
+        }
+
+        try {
+
+            showLoading();
+
+            await apiRequest(
+                `/api/debates/${sessionId}/rounds/3/argument`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        argument: argument
+                    })
+                }
+            );
+
+
+            const evaluatedRound =
+                await apiRequest(
+                    `/api/debates/${sessionId}/rounds/3/evaluate`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            displayRound3Result(
+                evaluatedRound.roundScore
+            );
+
+            round3UserInput.disabled = true;
+            round3SubmitButton.disabled = true;
+
+        } catch (error) {
+
+            showError(error.message);
+
+        } finally {
+
+            hideLoading();
+        }
+    }
+);
+
+function displayRound3Result(score) {
+
+    const userValue =
+        score.userPercentage;
+
+    const aiValue =
+        score.aiPercentage;
+
+
+    round3UserPercentage.textContent =
+        `${userValue}%`;
+
+    round3AiPercentage.textContent =
+        `${aiValue}%`;
+
+    round3Result.classList.remove("hidden");
+
+
+    requestAnimationFrame(() => {
+
+        round3UserBar.style.width =
+            `${userValue}%`;
+
+        round3AiBar.style.width =
+            `${aiValue}%`;
+    });
+
+
+    if (score.winner === "USER") {
+
+        round3Winner.textContent =
+            "ROUND WINNER — YOU";
+
+    } else if (score.winner === "AI") {
+
+        round3Winner.textContent =
+            "ROUND WINNER — AI";
+
+    } else {
+
+        round3Winner.textContent =
+            "ROUND RESULT — DRAW";
+    }
+}
+
+finalButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            showLoading();
+
+            const verdict =
+                await apiRequest(
+                    `/api/debates/${sessionId}/finalize`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+            displayFinalVerdict(verdict);
+
+            showScreen("final-screen");
+
+        } catch (error) {
+
+            showError(error.message);
+
+        } finally {
+
+            hideLoading();
+        }
+    }
+);
+
+function displayFinalVerdict(verdict) {
+
+    finalUserPercentage.textContent =
+        `${verdict.userPercentage}%`;
+
+    finalAiPercentage.textContent =
+        `${verdict.aiPercentage}%`;
+
+
+    requestAnimationFrame(() => {
+
+        finalUserBar.style.width =
+            `${verdict.userPercentage}%`;
+    });
+
+
+    if (verdict.winner === "USER") {
+
+        finalWinner.textContent =
+            "🏆 YOU WIN";
+
+    } else if (verdict.winner === "AI") {
+
+        finalWinner.textContent =
+            "🏆 AI WINS";
+
+    } else {
+
+        finalWinner.textContent =
+            "DRAW";
+    }
+
+
+    finalSummary.textContent =
+        verdict.summary;
+
+
+    finalFactors.innerHTML = "";
+
+    verdict.decisiveFactors.forEach(
+        factor => {
+
+            const item =
+                document.createElement("li");
+
+            item.textContent =
+                factor;
+
+            finalFactors.appendChild(item);
+        }
+    );
+}
+
+restartButton.addEventListener(
+    "click",
+    () => {
+
+        window.location.reload();
+    }
+);

@@ -373,6 +373,152 @@
 
     </section>
 
+    <section id="round3-screen" class="screen">
+
+        <div class="panel wide">
+
+            <p class="step-label">ROUND 3</p>
+
+            <h2>Final Statement</h2>
+
+            <p class="description">
+                지금까지의 토론을 종합하여 최종 변론을 진행합니다.
+            </p>
+
+            <div class="debate-layout">
+
+                <div class="speech-card">
+                    <span class="speaker-label">AI</span>
+
+                    <p id="round3-ai-argument">
+                        AI의 최종 변론을 준비하고 있습니다.
+                    </p>
+                </div>
+
+                <div class="speech-card user-card">
+                    <span class="speaker-label">YOU</span>
+
+                    <textarea
+                            id="round3-user-input"
+                            placeholder="당신의 최종 변론을 입력하세요."
+                    ></textarea>
+
+                    <button
+                            id="round3-submit-button"
+                            class="primary-button"
+                    >
+                        SUBMIT FINAL STATEMENT
+                    </button>
+                </div>
+
+            </div>
+
+            <div
+                    id="round3-result"
+                    class="round-result hidden"
+            >
+
+                <h3>ROUND 3 RESULT</h3>
+
+                <div class="score-row">
+                    <span>YOU</span>
+                    <strong id="round3-user-percentage">0%</strong>
+                </div>
+
+                <div class="score-bar">
+                    <div
+                            id="round3-user-bar"
+                            class="score-fill"
+                    ></div>
+                </div>
+
+                <div class="score-row">
+                    <span>AI</span>
+                    <strong id="round3-ai-percentage">0%</strong>
+                </div>
+
+                <div class="score-bar">
+                    <div
+                            id="round3-ai-bar"
+                            class="score-fill"
+                    ></div>
+                </div>
+
+                <p
+                        id="round3-winner"
+                        class="round-winner"
+                ></p>
+
+                <button
+                        id="final-button"
+                        class="primary-button"
+                >
+                    FINAL RESULT
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="final-screen" class="screen">
+
+        <div class="panel wide">
+
+            <p class="step-label">FINAL VERDICT</p>
+
+            <h2 id="final-title">
+                Debate Result
+            </h2>
+
+            <div class="final-score">
+
+                <div class="final-score-box">
+                    <span>YOU</span>
+                    <strong id="final-user-percentage">0%</strong>
+                </div>
+
+                <div class="versus large">
+                    VS
+                </div>
+
+                <div class="final-score-box">
+                    <span>AI</span>
+                    <strong id="final-ai-percentage">0%</strong>
+                </div>
+
+            </div>
+
+            <div class="final-gauge">
+                <div id="final-user-bar" class="final-user-bar"></div>
+            </div>
+
+            <h3 id="final-winner" class="final-winner"></h3>
+
+            <div class="verdict-box">
+                <h4>AI JUDGE VERDICT</h4>
+
+                <p id="final-summary"></p>
+            </div>
+
+            <div class="factor-box">
+                <h4>DECISIVE FACTORS</h4>
+
+                <ul id="final-factors"></ul>
+            </div>
+
+            <button
+                    id="restart-button"
+                    class="primary-button"
+            >
+                NEW DEBATE
+            </button>
+
+        </div>
+
+    </section>
+
     <!-- =========================================================
          LOADING
     ========================================================== -->
