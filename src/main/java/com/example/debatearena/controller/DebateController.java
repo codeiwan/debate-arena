@@ -118,4 +118,29 @@ public class DebateController {
     ) {
         return debateService.evaluateRound2(sessionId);
     }
+
+    @PostMapping("/{sessionId}/rounds/3/start")
+    public DebateRound startRound3(
+            @PathVariable String sessionId
+    ) {
+        return debateService.startRound3(sessionId);
+    }
+
+    @PostMapping("/{sessionId}/rounds/3/argument")
+    public DebateRound submitRound3Argument(
+            @PathVariable String sessionId,
+            @RequestBody ArgumentRequest request
+    ) {
+        return debateService.submitRound3Argument(
+                sessionId,
+                request.argument()
+        );
+    }
+
+    @PostMapping("/{sessionId}/rounds/3/evaluate")
+    public DebateRound evaluateRound3(
+            @PathVariable String sessionId
+    ) {
+        return debateService.evaluateRound3(sessionId);
+    }
 }

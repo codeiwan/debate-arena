@@ -333,4 +333,114 @@ public class DebateService {
 
         return round;
     }
+
+    public DebateRound startRound3(String sessionId) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_2_EVALUATED".equals(session.getStatus())) {
+            throw new IllegalStateException(
+                    "Round 2 평가가 완료된 후 Round 3을 시작할 수 있습니다."
+            );
+        }
+
+        String aiArgument =
+                debateAiService.generateFinalStatement(session);
+
+        DebateRound round = new DebateRound(3);
+        round.setAiArgument(aiArgument);
+
+        session.getRounds().add(round);
+
+        session.setCurrentRound(3);
+        session.setStatus("ROUND_3_AI_DONE");
+
+        return round;
+    }
+
+    public DebateRound submitRound3Argument(
+            String sessionId,
+            String userArgument
+    ) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_3_AI_DONE".equals(session.getStatus())) {
+            throw new IllegalStateException(
+                    "AI의 최종 변론이 완료된 후 사용자 최종 변론을 제출할 수 있습니다."
+            );
+        }
+
+        if (userArgument == null || userArgument.isBlank()) {
+            throw new IllegalArgumentException(
+                    "최종 변론 내용을 입력해야 합니다."
+            );
+        }
+
+        DebateRound round = session.getRounds()
+                .stream()
+                .filter(item -> item.getRoundNumber() == 3)
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Round 3 정보를 찾을 수 없습니다."
+                        )
+                );
+
+        round.setUserArgument(userArgument);
+
+        debateAiService.rememberUserArgument(
+                session.getSessionId(),
+                userArgument
+        );
+
+        session.setStatus("ROUND_3_ARGUMENTS_COMPLETE");
+
+        return round;
+    }
+
+    public DebateRound evaluateRound3(String sessionId) {
+
+        DebateSession session =
+                getRequiredSession(sessionId);
+
+        if (!"ROUND_3_ARGUMENTS_COMPLETE"
+                .equals(session.getStatus())) {
+
+            throw new IllegalStateException(
+                    "양측의 Round 3 최종 변론이 완료된 후 평가할 수 있습니다."
+            );
+        }
+
+        DebateRound round = session.getRounds()
+                .stream()
+                .filter(item ->
+                        item.getRoundNumber() == 3
+                )
+                .findFirst()
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Round 3 정보를 찾을 수 없습니다."
+                        )
+                );
+
+        JudgeResult judgeResult =
+                judgeService.evaluateRound(
+                        session,
+                        round,
+                        "지금까지의 전체 토론을 종합하여 자신의 입장을 일관되고 설득력 있게 최종 변론한다."
+                );
+
+        RoundScore roundScore =
+                scoreService.calculate(judgeResult);
+
+        round.setJudgeResult(judgeResult);
+        round.setRoundScore(roundScore);
+
+        session.setStatus("ROUND_3_EVALUATED");
+
+        return round;
+    }
 }

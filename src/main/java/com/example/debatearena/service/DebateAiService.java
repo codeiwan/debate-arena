@@ -26,6 +26,9 @@ public class DebateAiService {
     @Value("classpath:/prompts/rebuttal.st")
     private Resource rebuttalPrompt;
 
+    @Value("classpath:/prompts/final-statement.st")
+    private Resource finalStatementPrompt;
+
     public DebateAiService(
             ChatClient.Builder chatClientBuilder,
             ChatMemory chatMemory
@@ -98,6 +101,35 @@ public class DebateAiService {
                 )
                 .user(
                         "Round 2입니다. 지금까지의 토론 내용을 바탕으로 상대방의 핵심 주장을 반박하세요."
+                )
+                .advisors(advisor -> advisor.param(
+                        ChatMemory.CONVERSATION_ID,
+                        session.getSessionId()
+                ))
+                .call()
+                .content();
+    }
+
+    public String generateFinalStatement(DebateSession session) {
+        return chatClient
+                .prompt()
+                .system(system -> system
+                        .text(finalStatementPrompt)
+                        .param(
+                                "topic",
+                                session.getDebateTopic().topic()
+                        )
+                        .param(
+                                "aiPosition",
+                                session.getAiPosition()
+                        )
+                        .param(
+                                "userPosition",
+                                session.getUserPosition()
+                        )
+                )
+                .user(
+                        "Round 3입니다. 지금까지의 전체 토론을 바탕으로 최종 변론을 하세요."
                 )
                 .advisors(advisor -> advisor.param(
                         ChatMemory.CONVERSATION_ID,
