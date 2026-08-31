@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.debatearena.domain.DebateSession;
 import com.example.debatearena.domain.DebateTopic;
+import com.example.debatearena.dto.PositionRequest;
 import com.example.debatearena.dto.TopicRequest;
 import com.example.debatearena.service.DebateService;
 
@@ -32,7 +33,6 @@ public class DebateController {
     public ResponseEntity<DebateSession> getSession(
             @PathVariable String sessionId
     ) {
-
         DebateSession session =
                 debateService.getSession(sessionId);
 
@@ -51,6 +51,17 @@ public class DebateController {
         return debateService.clarifyTopic(
                 sessionId,
                 request.topic()
+        );
+    }
+
+    @PostMapping("/{sessionId}/position")
+    public DebateSession selectPosition(
+            @PathVariable String sessionId,
+            @RequestBody PositionRequest request
+    ) {
+        return debateService.selectPosition(
+                sessionId,
+                request.side()
         );
     }
 }
