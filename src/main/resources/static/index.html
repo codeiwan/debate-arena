@@ -195,6 +195,97 @@
 
 
     <!-- =========================================================
+        ROUND 1
+    ========================================================== -->
+    <section id="round1-screen" class="screen">
+
+        <div class="panel wide">
+
+            <p class="step-label">ROUND 1</p>
+
+            <h2>Opening Argument</h2>
+
+            <p class="description">
+                각 진영은 자신의 핵심 주장과 근거를 제시합니다.
+            </p>
+
+            <div class="debate-layout">
+
+                <div class="speech-card">
+                    <span class="speaker-label">AI</span>
+                    <p id="round1-ai-argument">
+                        AI의 주장을 준비하고 있습니다.
+                    </p>
+                </div>
+
+                <div class="speech-card user-card">
+                    <span class="speaker-label">YOU</span>
+
+                    <textarea
+                            id="round1-user-input"
+                            placeholder="당신의 첫 주장을 입력하세요."
+                    ></textarea>
+
+                    <button
+                            id="round1-submit-button"
+                            class="primary-button"
+                    >
+                        SUBMIT ARGUMENT
+                    </button>
+                </div>
+
+            </div>
+
+            <div
+                    id="round1-result"
+                    class="round-result hidden"
+            >
+
+                <h3>ROUND 1 RESULT</h3>
+
+                <div class="score-row">
+                    <span>YOU</span>
+                    <strong id="round1-user-percentage">0%</strong>
+                </div>
+
+                <div class="score-bar">
+                    <div
+                            id="round1-user-bar"
+                            class="score-fill"
+                    ></div>
+                </div>
+
+                <div class="score-row">
+                    <span>AI</span>
+                    <strong id="round1-ai-percentage">0%</strong>
+                </div>
+
+                <div class="score-bar">
+                    <div
+                            id="round1-ai-bar"
+                            class="score-fill"
+                    ></div>
+                </div>
+
+                <p
+                        id="round1-winner"
+                        class="round-winner"
+                ></p>
+
+                <button
+                        id="round2-button"
+                        class="primary-button"
+                >
+                    ENTER ROUND 2
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================================
          LOADING
     ========================================================== -->
     <div id="loading" class="loading hidden">

@@ -50,6 +50,35 @@ const loading =
 const errorMessage =
     document.getElementById("error-message");
 
+const round1AiArgument =
+    document.getElementById("round1-ai-argument");
+
+const round1UserInput =
+    document.getElementById("round1-user-input");
+
+const round1SubmitButton =
+    document.getElementById("round1-submit-button");
+
+const round1Result =
+    document.getElementById("round1-result");
+
+const round1UserPercentage =
+    document.getElementById("round1-user-percentage");
+
+const round1AiPercentage =
+    document.getElementById("round1-ai-percentage");
+
+const round1UserBar =
+    document.getElementById("round1-user-bar");
+
+const round1AiBar =
+    document.getElementById("round1-ai-bar");
+
+const round1Winner =
+    document.getElementById("round1-winner");
+
+const round2Button =
+    document.getElementById("round2-button");
 
 /* =========================================================
    SCREEN
@@ -301,17 +330,158 @@ positionBButton.addEventListener(
 
 round1Button.addEventListener(
     "click",
+    async () => {
+
+        try {
+
+            showLoading();
+
+            const round =
+                await apiRequest(
+                    `/api/debates/${sessionId}/rounds/1/start`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+            round1AiArgument.textContent =
+                round.aiArgument;
+
+            round1UserInput.value = "";
+
+            round1Result.classList.add("hidden");
+
+            showScreen("round1-screen");
+
+        } catch (error) {
+
+            showError(error.message);
+
+        } finally {
+
+            hideLoading();
+        }
+    }
+);
+
+round1SubmitButton.addEventListener(
+    "click",
+    async () => {
+
+        const argument =
+            round1UserInput.value.trim();
+
+        if (!argument) {
+
+            showError(
+                "Round 1 주장을 입력해주세요."
+            );
+
+            return;
+        }
+
+        try {
+
+            showLoading();
+
+            await apiRequest(
+                `/api/debates/${sessionId}/rounds/1/argument`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        argument: argument
+                    })
+                }
+            );
+
+
+            const evaluatedRound =
+                await apiRequest(
+                    `/api/debates/${sessionId}/rounds/1/evaluate`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+            displayRound1Result(
+                evaluatedRound.roundScore
+            );
+
+            round1UserInput.disabled = true;
+            round1SubmitButton.disabled = true;
+
+        } catch (error) {
+
+            showError(error.message);
+
+        } finally {
+
+            hideLoading();
+        }
+    }
+);
+
+function displayRound1Result(score) {
+
+    const userValue =
+        score.userPercentage;
+
+    const aiValue =
+        score.aiPercentage;
+
+
+    round1UserPercentage.textContent =
+        `${userValue}%`;
+
+    round1AiPercentage.textContent =
+        `${aiValue}%`;
+
+
+    round1Result.classList.remove(
+        "hidden"
+    );
+
+
+    requestAnimationFrame(() => {
+
+        round1UserBar.style.width =
+            `${userValue}%`;
+
+        round1AiBar.style.width =
+            `${aiValue}%`;
+    });
+
+
+    if (score.winner === "USER") {
+
+        round1Winner.textContent =
+            "ROUND WINNER — YOU";
+
+    } else if (score.winner === "AI") {
+
+        round1Winner.textContent =
+            "ROUND WINNER — AI";
+
+    } else {
+
+        round1Winner.textContent =
+            "ROUND RESULT — DRAW";
+    }
+}
+
+round2Button.addEventListener(
+    "click",
     () => {
 
-        /*
-         * 다음 UI 단계에서 구현한다.
-         *
-         * POST
-         * /api/debates/{sessionId}/rounds/1/start
-         */
-
         alert(
-            "Round 1 UI는 다음 단계에서 연결합니다."
+            "Round 2 UI는 다음 단계에서 연결합니다."
         );
     }
 );
