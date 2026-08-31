@@ -8,6 +8,7 @@ public class DebateSession {
     private final LocalDateTime createdAt;
 
     private String status;
+    private DebateTopic debateTopic;
 
     public DebateSession(String sessionId) {
         this.sessionId = sessionId;
@@ -29,5 +30,13 @@ public class DebateSession {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public DebateTopic getDebateTopic() {
+        return debateTopic;
+    }
+
+    public void setDebateTopic(DebateTopic debateTopic) {
+        this.debateTopic = debateTopic;
     }
 }
