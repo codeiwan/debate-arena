@@ -1,544 +1,382 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Debate Arena</title>
 
-    <link rel="stylesheet" href="/style.css">
-</head>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
 
-<body>
-
-<main class="app">
-
-    <!-- =========================================================
+  <body>
+    <main class="app">
+      <!-- =========================================================
          START
     ========================================================== -->
-    <section id="start-screen" class="screen active">
-
+      <section id="start-screen" class="screen active">
         <div class="hero">
+          <p class="eyebrow">AI DEBATE GAME</p>
 
-            <p class="eyebrow">AI DEBATE GAME</p>
+          <h1>DEBATE ARENA</h1>
 
-            <h1>DEBATE ARENA</h1>
+          <p class="subtitle">AI와 3라운드 동안 논리로 승부하세요.</p>
 
-            <p class="subtitle">
-                AI와 3라운드 동안 논리로 승부하세요.
-            </p>
-
-            <div class="rules">
-
-                <div class="rule-card">
-                    <strong>ROUND 1</strong>
-                    <span>Opening Argument</span>
-                </div>
-
-                <div class="rule-card">
-                    <strong>ROUND 2</strong>
-                    <span>Rebuttal</span>
-                </div>
-
-                <div class="rule-card">
-                    <strong>ROUND 3</strong>
-                    <span>Final Statement</span>
-                </div>
-
+          <div class="rules">
+            <div class="rule-card">
+              <strong>ROUND 1</strong>
+              <span>Opening Argument</span>
             </div>
 
-            <button id="start-button" class="primary-button">
-                START BATTLE
-            </button>
+            <div class="rule-card">
+              <strong>ROUND 2</strong>
+              <span>Rebuttal</span>
+            </div>
 
+            <div class="rule-card">
+              <strong>ROUND 3</strong>
+              <span>Final Statement</span>
+            </div>
+          </div>
+
+          <button id="start-button" class="primary-button">START BATTLE</button>
         </div>
+      </section>
 
-    </section>
-
-
-    <!-- =========================================================
+      <!-- =========================================================
          TOPIC
     ========================================================== -->
-    <section id="topic-screen" class="screen">
-
+      <section id="topic-screen" class="screen">
         <div class="panel">
+          <p class="step-label">STEP 1</p>
 
-            <p class="step-label">STEP 1</p>
+          <h2>무엇에 대해 토론할까요?</h2>
 
-            <h2>무엇에 대해 토론할까요?</h2>
+          <p class="description">
+            자유롭게 입력하면 AI가 토론 가능한 논제로 정리합니다.
+          </p>
 
-            <p class="description">
-                자유롭게 입력하면 AI가 토론 가능한 논제로 정리합니다.
-            </p>
+          <textarea
+            id="topic-input"
+            placeholder="예: AI 코딩 도구에 대해서 토론하고 싶어"
+          ></textarea>
 
-            <textarea
-                    id="topic-input"
-                    placeholder="예: AI 코딩 도구에 대해서 토론하고 싶어"
-            ></textarea>
-
-            <button id="topic-button" class="primary-button">
-                CREATE DEBATE
-            </button>
-
+          <button id="topic-button" class="primary-button">
+            CREATE DEBATE
+          </button>
         </div>
+      </section>
 
-    </section>
-
-
-    <!-- =========================================================
+      <!-- =========================================================
          POSITION
     ========================================================== -->
-    <section id="position-screen" class="screen">
-
+      <section id="position-screen" class="screen">
         <div class="panel wide">
+          <p class="step-label">STEP 2</p>
 
-            <p class="step-label">STEP 2</p>
+          <h2>Choose Your Side</h2>
 
-            <h2>Choose Your Side</h2>
+          <div class="topic-box">
+            <span>DEBATE TOPIC</span>
 
-            <div class="topic-box">
+            <p id="clarified-topic"></p>
+          </div>
 
-                <span>DEBATE TOPIC</span>
+          <p class="description">당신이 선택하지 않은 입장은 AI가 맡습니다.</p>
 
-                <p id="clarified-topic"></p>
+          <div class="position-grid">
+            <button id="position-a" class="position-card" data-side="A">
+              <span class="side-label">SIDE A</span>
+              <p id="position-a-text"></p>
+              <strong>SELECT A</strong>
+            </button>
 
-            </div>
+            <div class="versus">VS</div>
 
-            <p class="description">
-                당신이 선택하지 않은 입장은 AI가 맡습니다.
-            </p>
-
-            <div class="position-grid">
-
-                <button
-                        id="position-a"
-                        class="position-card"
-                        data-side="A"
-                >
-                    <span class="side-label">SIDE A</span>
-                    <p id="position-a-text"></p>
-                    <strong>SELECT A</strong>
-                </button>
-
-
-                <div class="versus">
-                    VS
-                </div>
-
-
-                <button
-                        id="position-b"
-                        class="position-card"
-                        data-side="B"
-                >
-                    <span class="side-label">SIDE B</span>
-                    <p id="position-b-text"></p>
-                    <strong>SELECT B</strong>
-                </button>
-
-            </div>
-
+            <button id="position-b" class="position-card" data-side="B">
+              <span class="side-label">SIDE B</span>
+              <p id="position-b-text"></p>
+              <strong>SELECT B</strong>
+            </button>
+          </div>
         </div>
+      </section>
 
-    </section>
-
-
-    <!-- =========================================================
+      <!-- =========================================================
          READY
     ========================================================== -->
-    <section id="ready-screen" class="screen">
-
+      <section id="ready-screen" class="screen">
         <div class="panel">
+          <p class="step-label">MATCH READY</p>
 
-            <p class="step-label">MATCH READY</p>
+          <h2>토론 준비 완료</h2>
 
-            <h2>토론 준비 완료</h2>
+          <div class="matchup">
+            <div class="fighter">
+              <span>YOU</span>
 
-            <div class="matchup">
-
-                <div class="fighter">
-
-                    <span>YOU</span>
-
-                    <p id="user-position"></p>
-
-                </div>
-
-                <div class="versus large">
-                    VS
-                </div>
-
-                <div class="fighter">
-
-                    <span>AI</span>
-
-                    <p id="ai-position"></p>
-
-                </div>
-
+              <p id="user-position"></p>
             </div>
 
-            <p class="description">
-                이제 Round 1을 시작할 준비가 되었습니다.
-            </p>
+            <div class="versus large">VS</div>
 
-            <button
-                    id="round1-button"
-                    class="primary-button"
-            >
-                ENTER ROUND 1
-            </button>
+            <div class="fighter">
+              <span>AI</span>
 
+              <p id="ai-position"></p>
+            </div>
+          </div>
+
+          <p class="description">이제 Round 1을 시작할 준비가 되었습니다.</p>
+
+          <button id="round1-button" class="primary-button">
+            ENTER ROUND 1
+          </button>
         </div>
+      </section>
 
-    </section>
-
-
-    <!-- =========================================================
+      <!-- =========================================================
         ROUND 1
     ========================================================== -->
-    <section id="round1-screen" class="screen">
-
+      <section id="round1-screen" class="screen">
         <div class="panel wide">
+          <p class="step-label">ROUND 1</p>
 
-            <p class="step-label">ROUND 1</p>
+          <h2>Opening Argument</h2>
 
-            <h2>Opening Argument</h2>
+          <p class="description">
+            각 진영은 자신의 핵심 주장과 근거를 제시합니다.
+          </p>
 
-            <p class="description">
-                각 진영은 자신의 핵심 주장과 근거를 제시합니다.
-            </p>
-
-            <div class="debate-layout">
-
-                <div class="speech-card">
-                    <span class="speaker-label">AI</span>
-                    <p id="round1-ai-argument">
-                        AI의 주장을 준비하고 있습니다.
-                    </p>
-                </div>
-
-                <div class="speech-card user-card">
-                    <span class="speaker-label">YOU</span>
-
-                    <textarea
-                            id="round1-user-input"
-                            placeholder="당신의 첫 주장을 입력하세요."
-                    ></textarea>
-
-                    <button
-                            id="round1-submit-button"
-                            class="primary-button"
-                    >
-                        SUBMIT ARGUMENT
-                    </button>
-                </div>
-
+          <div class="debate-layout">
+            <div class="speech-card">
+              <span class="speaker-label">AI</span>
+              <p id="round1-ai-argument">AI의 주장을 준비하고 있습니다.</p>
             </div>
 
-            <div
-                    id="round1-result"
-                    class="round-result hidden"
-            >
+            <div class="speech-card user-card">
+              <span class="speaker-label">YOU</span>
 
-                <h3>ROUND 1 RESULT</h3>
+              <textarea
+                id="round1-user-input"
+                placeholder="당신의 첫 주장을 입력하세요."
+              ></textarea>
 
-                <div class="score-row">
-                    <span>YOU</span>
-                    <strong id="round1-user-percentage">0%</strong>
-                </div>
+              <button id="round1-submit-button" class="primary-button">
+                SUBMIT ARGUMENT
+              </button>
+            </div>
+          </div>
 
-                <div class="score-bar">
-                    <div
-                            id="round1-user-bar"
-                            class="score-fill"
-                    ></div>
-                </div>
+          <div id="round1-result" class="round-result hidden">
+            <h3>ROUND 1 RESULT</h3>
 
-                <div class="score-row">
-                    <span>AI</span>
-                    <strong id="round1-ai-percentage">0%</strong>
-                </div>
-
-                <div class="score-bar">
-                    <div
-                            id="round1-ai-bar"
-                            class="score-fill"
-                    ></div>
-                </div>
-
-                <p
-                        id="round1-winner"
-                        class="round-winner"
-                ></p>
-
-                <button
-                        id="round2-button"
-                        class="primary-button"
-                >
-                    ENTER ROUND 2
-                </button>
-
+            <div class="score-row">
+              <span>YOU</span>
+              <strong id="round1-user-percentage">0%</strong>
             </div>
 
-        </div>
-
-    </section>
-
-    <section id="round2-screen" class="screen">
-
-        <div class="panel wide">
-
-            <p class="step-label">ROUND 2</p>
-
-            <h2>Rebuttal</h2>
-
-            <p class="description">
-                상대방의 이전 주장에서 약점을 찾아 직접 반박하세요.
-            </p>
-
-            <div class="debate-layout">
-
-                <div class="speech-card user-card">
-                    <span class="speaker-label">YOU</span>
-
-                    <textarea
-                            id="round2-user-input"
-                            placeholder="AI의 Round 1 주장에 대한 반박을 입력하세요."
-                    ></textarea>
-
-                    <button
-                            id="round2-submit-button"
-                            class="primary-button"
-                    >
-                        SUBMIT REBUTTAL
-                    </button>
-                </div>
-
-                <div class="speech-card">
-                    <span class="speaker-label">AI</span>
-
-                    <p id="round2-ai-argument">
-                        당신의 반박을 기다리고 있습니다.
-                    </p>
-                </div>
-
+            <div class="score-bar">
+              <div id="round1-user-bar" class="score-fill"></div>
             </div>
 
-            <div
-                    id="round2-result"
-                    class="round-result hidden"
-            >
-                <h3>ROUND 2 RESULT</h3>
-
-                <div class="score-row">
-                    <span>YOU</span>
-                    <strong id="round2-user-percentage">0%</strong>
-                </div>
-
-                <div class="score-bar">
-                    <div
-                            id="round2-user-bar"
-                            class="score-fill"
-                    ></div>
-                </div>
-
-                <div class="score-row">
-                    <span>AI</span>
-                    <strong id="round2-ai-percentage">0%</strong>
-                </div>
-
-                <div class="score-bar">
-                    <div
-                            id="round2-ai-bar"
-                            class="score-fill"
-                    ></div>
-                </div>
-
-                <p
-                        id="round2-winner"
-                        class="round-winner"
-                ></p>
-
-                <button
-                        id="round3-button"
-                        class="primary-button"
-                >
-                    ENTER ROUND 3
-                </button>
-
+            <div class="score-row">
+              <span>AI</span>
+              <strong id="round1-ai-percentage">0%</strong>
             </div>
 
-        </div>
-
-    </section>
-
-    <section id="round3-screen" class="screen">
-
-        <div class="panel wide">
-
-            <p class="step-label">ROUND 3</p>
-
-            <h2>Final Statement</h2>
-
-            <p class="description">
-                지금까지의 토론을 종합하여 최종 변론을 진행합니다.
-            </p>
-
-            <div class="debate-layout">
-
-                <div class="speech-card">
-                    <span class="speaker-label">AI</span>
-
-                    <p id="round3-ai-argument">
-                        AI의 최종 변론을 준비하고 있습니다.
-                    </p>
-                </div>
-
-                <div class="speech-card user-card">
-                    <span class="speaker-label">YOU</span>
-
-                    <textarea
-                            id="round3-user-input"
-                            placeholder="당신의 최종 변론을 입력하세요."
-                    ></textarea>
-
-                    <button
-                            id="round3-submit-button"
-                            class="primary-button"
-                    >
-                        SUBMIT FINAL STATEMENT
-                    </button>
-                </div>
-
+            <div class="score-bar">
+              <div id="round1-ai-bar" class="score-fill"></div>
             </div>
 
-            <div
-                    id="round3-result"
-                    class="round-result hidden"
-            >
+            <p id="round1-winner" class="round-winner"></p>
 
-                <h3>ROUND 3 RESULT</h3>
-
-                <div class="score-row">
-                    <span>YOU</span>
-                    <strong id="round3-user-percentage">0%</strong>
-                </div>
-
-                <div class="score-bar">
-                    <div
-                            id="round3-user-bar"
-                            class="score-fill"
-                    ></div>
-                </div>
-
-                <div class="score-row">
-                    <span>AI</span>
-                    <strong id="round3-ai-percentage">0%</strong>
-                </div>
-
-                <div class="score-bar">
-                    <div
-                            id="round3-ai-bar"
-                            class="score-fill"
-                    ></div>
-                </div>
-
-                <p
-                        id="round3-winner"
-                        class="round-winner"
-                ></p>
-
-                <button
-                        id="final-button"
-                        class="primary-button"
-                >
-                    FINAL RESULT
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section id="final-screen" class="screen">
-
-        <div class="panel wide">
-
-            <p class="step-label">FINAL VERDICT</p>
-
-            <h2 id="final-title">
-                Debate Result
-            </h2>
-
-            <div class="final-score">
-
-                <div class="final-score-box">
-                    <span>YOU</span>
-                    <strong id="final-user-percentage">0%</strong>
-                </div>
-
-                <div class="versus large">
-                    VS
-                </div>
-
-                <div class="final-score-box">
-                    <span>AI</span>
-                    <strong id="final-ai-percentage">0%</strong>
-                </div>
-
-            </div>
-
-            <div class="final-gauge">
-                <div id="final-user-bar" class="final-user-bar"></div>
-            </div>
-
-            <h3 id="final-winner" class="final-winner"></h3>
-
-            <div class="verdict-box">
-                <h4>AI JUDGE VERDICT</h4>
-
-                <p id="final-summary"></p>
-            </div>
-
-            <div class="factor-box">
-                <h4>DECISIVE FACTORS</h4>
-
-                <ul id="final-factors"></ul>
-            </div>
-
-            <button
-                    id="restart-button"
-                    class="primary-button"
-            >
-                NEW DEBATE
+            <button id="round2-button" class="primary-button">
+              ENTER ROUND 2
             </button>
-
+          </div>
         </div>
+      </section>
 
-    </section>
+      <section id="round2-screen" class="screen">
+        <div class="panel wide">
+          <p class="step-label">ROUND 2</p>
 
-    <!-- =========================================================
+          <h2>Rebuttal</h2>
+
+          <p class="description">
+            상대방의 이전 주장에서 약점을 찾아 직접 반박하세요.
+          </p>
+
+          <div class="debate-layout">
+            <div class="speech-card user-card">
+              <span class="speaker-label">YOU</span>
+
+              <textarea
+                id="round2-user-input"
+                placeholder="AI의 Round 1 주장에 대한 반박을 입력하세요."
+              ></textarea>
+
+              <button id="round2-submit-button" class="primary-button">
+                SUBMIT REBUTTAL
+              </button>
+            </div>
+
+            <div class="speech-card">
+              <span class="speaker-label">AI</span>
+
+              <p id="round2-ai-argument">당신의 반박을 기다리고 있습니다.</p>
+            </div>
+          </div>
+
+          <div id="round2-result" class="round-result hidden">
+            <h3>ROUND 2 RESULT</h3>
+
+            <div class="score-row">
+              <span>YOU</span>
+              <strong id="round2-user-percentage">0%</strong>
+            </div>
+
+            <div class="score-bar">
+              <div id="round2-user-bar" class="score-fill"></div>
+            </div>
+
+            <div class="score-row">
+              <span>AI</span>
+              <strong id="round2-ai-percentage">0%</strong>
+            </div>
+
+            <div class="score-bar">
+              <div id="round2-ai-bar" class="score-fill"></div>
+            </div>
+
+            <p id="round2-winner" class="round-winner"></p>
+
+            <button id="round3-button" class="primary-button">
+              ENTER ROUND 3
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="round3-screen" class="screen">
+        <div class="panel wide">
+          <p class="step-label">ROUND 3</p>
+
+          <h2>Final Statement</h2>
+
+          <p class="description">
+            지금까지의 토론을 종합하여 최종 변론을 진행합니다.
+          </p>
+
+          <div class="debate-layout">
+            <div class="speech-card">
+              <span class="speaker-label">AI</span>
+
+              <p id="round3-ai-argument">AI의 최종 변론을 준비하고 있습니다.</p>
+            </div>
+
+            <div class="speech-card user-card">
+              <span class="speaker-label">YOU</span>
+
+              <textarea
+                id="round3-user-input"
+                placeholder="당신의 최종 변론을 입력하세요."
+              ></textarea>
+
+              <button id="round3-submit-button" class="primary-button">
+                SUBMIT FINAL STATEMENT
+              </button>
+            </div>
+          </div>
+
+          <div id="round3-result" class="round-result hidden">
+            <h3>ROUND 3 RESULT</h3>
+
+            <div class="score-row">
+              <span>YOU</span>
+              <strong id="round3-user-percentage">0%</strong>
+            </div>
+
+            <div class="score-bar">
+              <div id="round3-user-bar" class="score-fill"></div>
+            </div>
+
+            <div class="score-row">
+              <span>AI</span>
+              <strong id="round3-ai-percentage">0%</strong>
+            </div>
+
+            <div class="score-bar">
+              <div id="round3-ai-bar" class="score-fill"></div>
+            </div>
+
+            <p id="round3-winner" class="round-winner"></p>
+
+            <button id="final-button" class="primary-button">
+              FINAL RESULT
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="final-screen" class="screen">
+        <div class="panel wide">
+          <p class="step-label">FINAL VERDICT</p>
+
+          <h2 id="final-title">Debate Result</h2>
+
+          <div class="final-score">
+            <div class="final-score-box">
+              <span>YOU</span>
+              <strong id="final-user-percentage">0%</strong>
+            </div>
+
+            <div class="versus large">VS</div>
+
+            <div class="final-score-box">
+              <span>AI</span>
+              <strong id="final-ai-percentage">0%</strong>
+            </div>
+          </div>
+
+          <div class="final-gauge">
+            <div id="final-user-bar" class="final-user-bar"></div>
+          </div>
+
+          <h3 id="final-winner" class="final-winner"></h3>
+
+          <div class="verdict-box">
+            <h4>AI JUDGE VERDICT</h4>
+
+            <p id="final-summary"></p>
+          </div>
+
+          <div class="factor-box">
+            <h4>DECISIVE FACTORS</h4>
+
+            <ul id="final-factors"></ul>
+          </div>
+
+          <button id="restart-button" class="primary-button">NEW DEBATE</button>
+        </div>
+      </section>
+
+      <!-- =========================================================
          LOADING
     ========================================================== -->
-    <div id="loading" class="loading hidden">
-
+      <div id="loading" class="loading hidden">
         <div class="spinner"></div>
 
         <span>AI is thinking...</span>
+      </div>
 
-    </div>
-
-
-    <!-- =========================================================
+      <!-- =========================================================
          ERROR
     ========================================================== -->
-    <div id="error-message" class="error-message hidden"></div>
+      <div id="error-message" class="error-message hidden"></div>
+    </main>
 
-</main>
-
-<script src="/app.js"></script>
-
-</body>
+    <script src="/app.js"></script>
+  </body>
 </html>

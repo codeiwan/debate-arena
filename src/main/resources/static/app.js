@@ -4,936 +4,600 @@ let debateTopic = null;
 
 let selectedSide = null;
 
-
 /* =========================================================
    DOM
 ========================================================= */
 
 const screens = document.querySelectorAll(".screen");
 
-const startButton =
-    document.getElementById("start-button");
+const startButton = document.getElementById("start-button");
 
-const topicButton =
-    document.getElementById("topic-button");
+const topicButton = document.getElementById("topic-button");
 
-const topicInput =
-    document.getElementById("topic-input");
+const topicInput = document.getElementById("topic-input");
 
-const positionAButton =
-    document.getElementById("position-a");
+const positionAButton = document.getElementById("position-a");
 
-const positionBButton =
-    document.getElementById("position-b");
+const positionBButton = document.getElementById("position-b");
 
-const round1Button =
-    document.getElementById("round1-button");
+const round1Button = document.getElementById("round1-button");
 
-const clarifiedTopic =
-    document.getElementById("clarified-topic");
+const clarifiedTopic = document.getElementById("clarified-topic");
 
-const positionAText =
-    document.getElementById("position-a-text");
+const positionAText = document.getElementById("position-a-text");
 
-const positionBText =
-    document.getElementById("position-b-text");
+const positionBText = document.getElementById("position-b-text");
 
-const userPositionText =
-    document.getElementById("user-position");
+const userPositionText = document.getElementById("user-position");
 
-const aiPositionText =
-    document.getElementById("ai-position");
+const aiPositionText = document.getElementById("ai-position");
 
-const loading =
-    document.getElementById("loading");
+const loading = document.getElementById("loading");
 
-const errorMessage =
-    document.getElementById("error-message");
+const errorMessage = document.getElementById("error-message");
 
-const round1AiArgument =
-    document.getElementById("round1-ai-argument");
+const round1AiArgument = document.getElementById("round1-ai-argument");
 
-const round1UserInput =
-    document.getElementById("round1-user-input");
+const round1UserInput = document.getElementById("round1-user-input");
 
-const round1SubmitButton =
-    document.getElementById("round1-submit-button");
+const round1SubmitButton = document.getElementById("round1-submit-button");
 
-const round1Result =
-    document.getElementById("round1-result");
+const round1Result = document.getElementById("round1-result");
 
-const round1UserPercentage =
-    document.getElementById("round1-user-percentage");
+const round1UserPercentage = document.getElementById("round1-user-percentage");
 
-const round1AiPercentage =
-    document.getElementById("round1-ai-percentage");
+const round1AiPercentage = document.getElementById("round1-ai-percentage");
 
-const round1UserBar =
-    document.getElementById("round1-user-bar");
+const round1UserBar = document.getElementById("round1-user-bar");
 
-const round1AiBar =
-    document.getElementById("round1-ai-bar");
+const round1AiBar = document.getElementById("round1-ai-bar");
 
-const round1Winner =
-    document.getElementById("round1-winner");
+const round1Winner = document.getElementById("round1-winner");
 
-const round2Button =
-    document.getElementById("round2-button");
+const round2Button = document.getElementById("round2-button");
 
-const round2UserInput =
-    document.getElementById("round2-user-input");
+const round2UserInput = document.getElementById("round2-user-input");
 
-const round2SubmitButton =
-    document.getElementById("round2-submit-button");
+const round2SubmitButton = document.getElementById("round2-submit-button");
 
-const round2AiArgument =
-    document.getElementById("round2-ai-argument");
+const round2AiArgument = document.getElementById("round2-ai-argument");
 
-const round2Result =
-    document.getElementById("round2-result");
+const round2Result = document.getElementById("round2-result");
 
-const round2UserPercentage =
-    document.getElementById("round2-user-percentage");
+const round2UserPercentage = document.getElementById("round2-user-percentage");
 
-const round2AiPercentage =
-    document.getElementById("round2-ai-percentage");
+const round2AiPercentage = document.getElementById("round2-ai-percentage");
 
-const round2UserBar =
-    document.getElementById("round2-user-bar");
+const round2UserBar = document.getElementById("round2-user-bar");
 
-const round2AiBar =
-    document.getElementById("round2-ai-bar");
+const round2AiBar = document.getElementById("round2-ai-bar");
 
-const round2Winner =
-    document.getElementById("round2-winner");
+const round2Winner = document.getElementById("round2-winner");
 
-const round3Button =
-    document.getElementById("round3-button");
+const round3Button = document.getElementById("round3-button");
 
-const round3AiArgument =
-    document.getElementById("round3-ai-argument");
+const round3AiArgument = document.getElementById("round3-ai-argument");
 
-const round3UserInput =
-    document.getElementById("round3-user-input");
+const round3UserInput = document.getElementById("round3-user-input");
 
-const round3SubmitButton =
-    document.getElementById("round3-submit-button");
+const round3SubmitButton = document.getElementById("round3-submit-button");
 
-const round3Result =
-    document.getElementById("round3-result");
+const round3Result = document.getElementById("round3-result");
 
-const round3UserPercentage =
-    document.getElementById("round3-user-percentage");
+const round3UserPercentage = document.getElementById("round3-user-percentage");
 
-const round3AiPercentage =
-    document.getElementById("round3-ai-percentage");
+const round3AiPercentage = document.getElementById("round3-ai-percentage");
 
-const round3UserBar =
-    document.getElementById("round3-user-bar");
+const round3UserBar = document.getElementById("round3-user-bar");
 
-const round3AiBar =
-    document.getElementById("round3-ai-bar");
+const round3AiBar = document.getElementById("round3-ai-bar");
 
-const round3Winner =
-    document.getElementById("round3-winner");
+const round3Winner = document.getElementById("round3-winner");
 
-const finalButton =
-    document.getElementById("final-button");
+const finalButton = document.getElementById("final-button");
 
-const finalUserPercentage =
-    document.getElementById("final-user-percentage");
+const finalUserPercentage = document.getElementById("final-user-percentage");
 
-const finalAiPercentage =
-    document.getElementById("final-ai-percentage");
+const finalAiPercentage = document.getElementById("final-ai-percentage");
 
-const finalUserBar =
-    document.getElementById("final-user-bar");
+const finalUserBar = document.getElementById("final-user-bar");
 
-const finalWinner =
-    document.getElementById("final-winner");
+const finalWinner = document.getElementById("final-winner");
 
-const finalSummary =
-    document.getElementById("final-summary");
+const finalSummary = document.getElementById("final-summary");
 
-const finalFactors =
-    document.getElementById("final-factors");
+const finalFactors = document.getElementById("final-factors");
 
-const restartButton =
-    document.getElementById("restart-button");
+const restartButton = document.getElementById("restart-button");
 
 /* =========================================================
    SCREEN
 ========================================================= */
 
 function showScreen(screenId) {
+  screens.forEach((screen) => {
+    screen.classList.remove("active");
+  });
 
-    screens.forEach(screen => {
-        screen.classList.remove("active");
-    });
+  const target = document.getElementById(screenId);
 
-    const target =
-        document.getElementById(screenId);
-
-    target.classList.add("active");
+  target.classList.add("active");
 }
-
 
 /* =========================================================
    LOADING
 ========================================================= */
 
 function showLoading() {
-    loading.classList.remove("hidden");
+  loading.classList.remove("hidden");
 }
 
 function hideLoading() {
-    loading.classList.add("hidden");
+  loading.classList.add("hidden");
 }
-
 
 /* =========================================================
    ERROR
 ========================================================= */
 
 function showError(message) {
+  errorMessage.textContent = message;
 
-    errorMessage.textContent = message;
+  errorMessage.classList.remove("hidden");
 
-    errorMessage.classList.remove("hidden");
-
-    setTimeout(() => {
-        errorMessage.classList.add("hidden");
-    }, 4000);
+  setTimeout(() => {
+    errorMessage.classList.add("hidden");
+  }, 4000);
 }
-
 
 /* =========================================================
    API
 ========================================================= */
 
 async function apiRequest(url, options = {}) {
+  const response = await fetch(url, options);
 
-    const response = await fetch(url, options);
+  if (!response.ok) {
+    let message = "요청 처리 중 오류가 발생했습니다.";
 
-    if (!response.ok) {
+    try {
+      const error = await response.json();
 
-        let message =
-            "요청 처리 중 오류가 발생했습니다.";
+      message = error.message || error.error || message;
+    } catch (ignored) {}
 
-        try {
+    throw new Error(message);
+  }
 
-            const error =
-                await response.json();
-
-            message =
-                error.message
-                || error.error
-                || message;
-
-        } catch (ignored) {
-        }
-
-        throw new Error(message);
-    }
-
-    return response.json();
+  return response.json();
 }
-
 
 /* =========================================================
    START
 ========================================================= */
 
-startButton.addEventListener(
-    "click",
-    async () => {
+startButton.addEventListener("click", async () => {
+  try {
+    showLoading();
 
-        try {
+    const session = await apiRequest("/api/debates", {
+      method: "POST",
+    });
 
-            showLoading();
+    sessionId = session.sessionId;
 
-            const session =
-                await apiRequest(
-                    "/api/debates",
-                    {
-                        method: "POST"
-                    }
-                );
-
-            sessionId =
-                session.sessionId;
-
-            showScreen("topic-screen");
-
-        } catch (error) {
-
-            showError(error.message);
-
-        } finally {
-
-            hideLoading();
-        }
-    }
-);
-
+    showScreen("topic-screen");
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
 /* =========================================================
    TOPIC
 ========================================================= */
 
-topicButton.addEventListener(
-    "click",
-    async () => {
+topicButton.addEventListener("click", async () => {
+  const input = topicInput.value.trim();
 
-        const input =
-            topicInput.value.trim();
+  if (!input) {
+    showError("토론 주제를 입력해주세요.");
 
-        if (!input) {
+    return;
+  }
 
-            showError(
-                "토론 주제를 입력해주세요."
-            );
+  try {
+    showLoading();
 
-            return;
-        }
+    debateTopic = await apiRequest(`/api/debates/${sessionId}/topic`, {
+      method: "POST",
 
-        try {
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-            showLoading();
+      body: JSON.stringify({
+        topic: input,
+      }),
+    });
 
-            debateTopic =
-                await apiRequest(
-                    `/api/debates/${sessionId}/topic`,
-                    {
-                        method: "POST",
+    clarifiedTopic.textContent = debateTopic.topic;
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+    positionAText.textContent = debateTopic.positionA;
 
-                        body: JSON.stringify({
-                            topic: input
-                        })
-                    }
-                );
+    positionBText.textContent = debateTopic.positionB;
 
-            clarifiedTopic.textContent =
-                debateTopic.topic;
-
-            positionAText.textContent =
-                debateTopic.positionA;
-
-            positionBText.textContent =
-                debateTopic.positionB;
-
-            showScreen(
-                "position-screen"
-            );
-
-        } catch (error) {
-
-            showError(error.message);
-
-        } finally {
-
-            hideLoading();
-        }
-    }
-);
-
+    showScreen("position-screen");
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
 /* =========================================================
    POSITION
 ========================================================= */
 
 async function selectPosition(side) {
+  try {
+    showLoading();
 
-    try {
+    const session = await apiRequest(`/api/debates/${sessionId}/position`, {
+      method: "POST",
 
-        showLoading();
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-        const session =
-            await apiRequest(
-                `/api/debates/${sessionId}/position`,
-                {
-                    method: "POST",
+      body: JSON.stringify({
+        side: side,
+      }),
+    });
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+    selectedSide = side;
 
-                    body: JSON.stringify({
-                        side: side
-                    })
-                }
-            );
+    userPositionText.textContent = session.userPosition;
 
-        selectedSide = side;
+    aiPositionText.textContent = session.aiPosition;
 
-        userPositionText.textContent =
-            session.userPosition;
-
-        aiPositionText.textContent =
-            session.aiPosition;
-
-        showScreen(
-            "ready-screen"
-        );
-
-    } catch (error) {
-
-        showError(error.message);
-
-    } finally {
-
-        hideLoading();
-    }
+    showScreen("ready-screen");
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
 }
 
+positionAButton.addEventListener("click", () => selectPosition("A"));
 
-positionAButton.addEventListener(
-    "click",
-    () => selectPosition("A")
-);
-
-
-positionBButton.addEventListener(
-    "click",
-    () => selectPosition("B")
-);
-
+positionBButton.addEventListener("click", () => selectPosition("B"));
 
 /* =========================================================
    ROUND 1
 ========================================================= */
 
-round1Button.addEventListener(
-    "click",
-    async () => {
+round1Button.addEventListener("click", async () => {
+  try {
+    showLoading();
 
-        try {
+    const round = await apiRequest(`/api/debates/${sessionId}/rounds/1/start`, {
+      method: "POST",
+    });
 
-            showLoading();
+    round1AiArgument.textContent = round.aiArgument;
 
-            const round =
-                await apiRequest(
-                    `/api/debates/${sessionId}/rounds/1/start`,
-                    {
-                        method: "POST"
-                    }
-                );
+    round1UserInput.value = "";
 
-            round1AiArgument.textContent =
-                round.aiArgument;
+    round1Result.classList.add("hidden");
 
-            round1UserInput.value = "";
+    showScreen("round1-screen");
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
-            round1Result.classList.add("hidden");
+round1SubmitButton.addEventListener("click", async () => {
+  const argument = round1UserInput.value.trim();
 
-            showScreen("round1-screen");
+  if (!argument) {
+    showError("Round 1 주장을 입력해주세요.");
 
-        } catch (error) {
+    return;
+  }
 
-            showError(error.message);
+  try {
+    showLoading();
 
-        } finally {
+    await apiRequest(`/api/debates/${sessionId}/rounds/1/argument`, {
+      method: "POST",
 
-            hideLoading();
-        }
-    }
-);
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-round1SubmitButton.addEventListener(
-    "click",
-    async () => {
+      body: JSON.stringify({
+        argument: argument,
+      }),
+    });
 
-        const argument =
-            round1UserInput.value.trim();
+    const evaluatedRound = await apiRequest(
+      `/api/debates/${sessionId}/rounds/1/evaluate`,
+      {
+        method: "POST",
+      },
+    );
 
-        if (!argument) {
+    displayRound1Result(evaluatedRound.roundScore);
 
-            showError(
-                "Round 1 주장을 입력해주세요."
-            );
-
-            return;
-        }
-
-        try {
-
-            showLoading();
-
-            await apiRequest(
-                `/api/debates/${sessionId}/rounds/1/argument`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        argument: argument
-                    })
-                }
-            );
-
-
-            const evaluatedRound =
-                await apiRequest(
-                    `/api/debates/${sessionId}/rounds/1/evaluate`,
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            displayRound1Result(
-                evaluatedRound.roundScore
-            );
-
-            round1UserInput.disabled = true;
-            round1SubmitButton.disabled = true;
-
-        } catch (error) {
-
-            showError(error.message);
-
-        } finally {
-
-            hideLoading();
-        }
-    }
-);
+    round1UserInput.disabled = true;
+    round1SubmitButton.disabled = true;
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
 function displayRound1Result(score) {
+  const userValue = score.userPercentage;
 
-    const userValue =
-        score.userPercentage;
+  const aiValue = score.aiPercentage;
 
-    const aiValue =
-        score.aiPercentage;
+  round1UserPercentage.textContent = `${userValue}%`;
 
+  round1AiPercentage.textContent = `${aiValue}%`;
 
-    round1UserPercentage.textContent =
-        `${userValue}%`;
+  round1Result.classList.remove("hidden");
 
-    round1AiPercentage.textContent =
-        `${aiValue}%`;
+  requestAnimationFrame(() => {
+    round1UserBar.style.width = `${userValue}%`;
 
+    round1AiBar.style.width = `${aiValue}%`;
+  });
 
-    round1Result.classList.remove(
-        "hidden"
-    );
-
-
-    requestAnimationFrame(() => {
-
-        round1UserBar.style.width =
-            `${userValue}%`;
-
-        round1AiBar.style.width =
-            `${aiValue}%`;
-    });
-
-
-    if (score.winner === "USER") {
-
-        round1Winner.textContent =
-            "ROUND WINNER — YOU";
-
-    } else if (score.winner === "AI") {
-
-        round1Winner.textContent =
-            "ROUND WINNER — AI";
-
-    } else {
-
-        round1Winner.textContent =
-            "ROUND RESULT — DRAW";
-    }
+  if (score.winner === "USER") {
+    round1Winner.textContent = "ROUND WINNER — YOU";
+  } else if (score.winner === "AI") {
+    round1Winner.textContent = "ROUND WINNER — AI";
+  } else {
+    round1Winner.textContent = "ROUND RESULT — DRAW";
+  }
 }
 
-round2Button.addEventListener(
-    "click",
-    () => {
+round2Button.addEventListener("click", () => {
+  round2UserInput.value = "";
 
-        round2UserInput.value = "";
+  round2UserInput.disabled = false;
+  round2SubmitButton.disabled = false;
 
-        round2UserInput.disabled = false;
-        round2SubmitButton.disabled = false;
+  round2AiArgument.textContent = "당신의 반박을 기다리고 있습니다.";
 
-        round2AiArgument.textContent =
-            "당신의 반박을 기다리고 있습니다.";
+  round2Result.classList.add("hidden");
 
-        round2Result.classList.add("hidden");
+  showScreen("round2-screen");
+});
 
-        showScreen("round2-screen");
-    }
-);
+round2SubmitButton.addEventListener("click", async () => {
+  const argument = round2UserInput.value.trim();
 
-round2SubmitButton.addEventListener(
-    "click",
-    async () => {
+  if (!argument) {
+    showError("Round 2 반박을 입력해주세요.");
 
-        const argument =
-            round2UserInput.value.trim();
+    return;
+  }
 
-        if (!argument) {
+  try {
+    showLoading();
 
-            showError(
-                "Round 2 반박을 입력해주세요."
-            );
+    await apiRequest(`/api/debates/${sessionId}/rounds/2/argument`, {
+      method: "POST",
 
-            return;
-        }
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-        try {
+      body: JSON.stringify({
+        argument: argument,
+      }),
+    });
 
-            showLoading();
+    const aiRound = await apiRequest(
+      `/api/debates/${sessionId}/rounds/2/respond`,
+      {
+        method: "POST",
+      },
+    );
 
-            await apiRequest(
-                `/api/debates/${sessionId}/rounds/2/argument`,
-                {
-                    method: "POST",
+    round2AiArgument.textContent = aiRound.aiArgument;
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
+    const evaluatedRound = await apiRequest(
+      `/api/debates/${sessionId}/rounds/2/evaluate`,
+      {
+        method: "POST",
+      },
+    );
 
-                    body: JSON.stringify({
-                        argument: argument
-                    })
-                }
-            );
+    displayRound2Result(evaluatedRound.roundScore);
 
-
-            const aiRound =
-                await apiRequest(
-                    `/api/debates/${sessionId}/rounds/2/respond`,
-                    {
-                        method: "POST"
-                    }
-                );
-
-            round2AiArgument.textContent =
-                aiRound.aiArgument;
-
-
-            const evaluatedRound =
-                await apiRequest(
-                    `/api/debates/${sessionId}/rounds/2/evaluate`,
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            displayRound2Result(
-                evaluatedRound.roundScore
-            );
-
-            round2UserInput.disabled = true;
-            round2SubmitButton.disabled = true;
-
-        } catch (error) {
-
-            showError(error.message);
-
-        } finally {
-
-            hideLoading();
-        }
-    }
-);
+    round2UserInput.disabled = true;
+    round2SubmitButton.disabled = true;
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
 function displayRound2Result(score) {
+  const userValue = score.userPercentage;
 
-    const userValue =
-        score.userPercentage;
+  const aiValue = score.aiPercentage;
 
-    const aiValue =
-        score.aiPercentage;
+  round2UserPercentage.textContent = `${userValue}%`;
 
+  round2AiPercentage.textContent = `${aiValue}%`;
 
-    round2UserPercentage.textContent =
-        `${userValue}%`;
+  round2Result.classList.remove("hidden");
 
-    round2AiPercentage.textContent =
-        `${aiValue}%`;
+  requestAnimationFrame(() => {
+    round2UserBar.style.width = `${userValue}%`;
 
+    round2AiBar.style.width = `${aiValue}%`;
+  });
 
-    round2Result.classList.remove(
-        "hidden"
-    );
-
-
-    requestAnimationFrame(() => {
-
-        round2UserBar.style.width =
-            `${userValue}%`;
-
-        round2AiBar.style.width =
-            `${aiValue}%`;
-    });
-
-
-    if (score.winner === "USER") {
-
-        round2Winner.textContent =
-            "ROUND WINNER — YOU";
-
-    } else if (score.winner === "AI") {
-
-        round2Winner.textContent =
-            "ROUND WINNER — AI";
-
-    } else {
-
-        round2Winner.textContent =
-            "ROUND RESULT — DRAW";
-    }
+  if (score.winner === "USER") {
+    round2Winner.textContent = "ROUND WINNER — YOU";
+  } else if (score.winner === "AI") {
+    round2Winner.textContent = "ROUND WINNER — AI";
+  } else {
+    round2Winner.textContent = "ROUND RESULT — DRAW";
+  }
 }
 
-round3Button.addEventListener(
-    "click",
-    async () => {
+round3Button.addEventListener("click", async () => {
+  try {
+    showLoading();
 
-        try {
+    const round = await apiRequest(`/api/debates/${sessionId}/rounds/3/start`, {
+      method: "POST",
+    });
 
-            showLoading();
+    round3AiArgument.textContent = round.aiArgument;
 
-            const round =
-                await apiRequest(
-                    `/api/debates/${sessionId}/rounds/3/start`,
-                    {
-                        method: "POST"
-                    }
-                );
+    round3UserInput.value = "";
+    round3UserInput.disabled = false;
+    round3SubmitButton.disabled = false;
 
-            round3AiArgument.textContent =
-                round.aiArgument;
+    round3Result.classList.add("hidden");
 
-            round3UserInput.value = "";
-            round3UserInput.disabled = false;
-            round3SubmitButton.disabled = false;
+    showScreen("round3-screen");
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
-            round3Result.classList.add("hidden");
+round3SubmitButton.addEventListener("click", async () => {
+  const argument = round3UserInput.value.trim();
 
-            showScreen("round3-screen");
+  if (!argument) {
+    showError("최종 변론을 입력해주세요.");
 
-        } catch (error) {
+    return;
+  }
 
-            showError(error.message);
+  try {
+    showLoading();
 
-        } finally {
+    await apiRequest(`/api/debates/${sessionId}/rounds/3/argument`, {
+      method: "POST",
 
-            hideLoading();
-        }
-    }
-);
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-round3SubmitButton.addEventListener(
-    "click",
-    async () => {
+      body: JSON.stringify({
+        argument: argument,
+      }),
+    });
 
-        const argument =
-            round3UserInput.value.trim();
+    const evaluatedRound = await apiRequest(
+      `/api/debates/${sessionId}/rounds/3/evaluate`,
+      {
+        method: "POST",
+      },
+    );
 
-        if (!argument) {
+    displayRound3Result(evaluatedRound.roundScore);
 
-            showError(
-                "최종 변론을 입력해주세요."
-            );
-
-            return;
-        }
-
-        try {
-
-            showLoading();
-
-            await apiRequest(
-                `/api/debates/${sessionId}/rounds/3/argument`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        argument: argument
-                    })
-                }
-            );
-
-
-            const evaluatedRound =
-                await apiRequest(
-                    `/api/debates/${sessionId}/rounds/3/evaluate`,
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            displayRound3Result(
-                evaluatedRound.roundScore
-            );
-
-            round3UserInput.disabled = true;
-            round3SubmitButton.disabled = true;
-
-        } catch (error) {
-
-            showError(error.message);
-
-        } finally {
-
-            hideLoading();
-        }
-    }
-);
+    round3UserInput.disabled = true;
+    round3SubmitButton.disabled = true;
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
 function displayRound3Result(score) {
+  const userValue = score.userPercentage;
 
-    const userValue =
-        score.userPercentage;
+  const aiValue = score.aiPercentage;
 
-    const aiValue =
-        score.aiPercentage;
+  round3UserPercentage.textContent = `${userValue}%`;
 
+  round3AiPercentage.textContent = `${aiValue}%`;
 
-    round3UserPercentage.textContent =
-        `${userValue}%`;
+  round3Result.classList.remove("hidden");
 
-    round3AiPercentage.textContent =
-        `${aiValue}%`;
+  requestAnimationFrame(() => {
+    round3UserBar.style.width = `${userValue}%`;
 
-    round3Result.classList.remove("hidden");
+    round3AiBar.style.width = `${aiValue}%`;
+  });
 
-
-    requestAnimationFrame(() => {
-
-        round3UserBar.style.width =
-            `${userValue}%`;
-
-        round3AiBar.style.width =
-            `${aiValue}%`;
-    });
-
-
-    if (score.winner === "USER") {
-
-        round3Winner.textContent =
-            "ROUND WINNER — YOU";
-
-    } else if (score.winner === "AI") {
-
-        round3Winner.textContent =
-            "ROUND WINNER — AI";
-
-    } else {
-
-        round3Winner.textContent =
-            "ROUND RESULT — DRAW";
-    }
+  if (score.winner === "USER") {
+    round3Winner.textContent = "ROUND WINNER — YOU";
+  } else if (score.winner === "AI") {
+    round3Winner.textContent = "ROUND WINNER — AI";
+  } else {
+    round3Winner.textContent = "ROUND RESULT — DRAW";
+  }
 }
 
-finalButton.addEventListener(
-    "click",
-    async () => {
+finalButton.addEventListener("click", async () => {
+  try {
+    showLoading();
 
-        try {
+    const verdict = await apiRequest(`/api/debates/${sessionId}/finalize`, {
+      method: "POST",
+    });
 
-            showLoading();
+    displayFinalVerdict(verdict);
 
-            const verdict =
-                await apiRequest(
-                    `/api/debates/${sessionId}/finalize`,
-                    {
-                        method: "POST"
-                    }
-                );
-
-            displayFinalVerdict(verdict);
-
-            showScreen("final-screen");
-
-        } catch (error) {
-
-            showError(error.message);
-
-        } finally {
-
-            hideLoading();
-        }
-    }
-);
+    showScreen("final-screen");
+  } catch (error) {
+    showError(error.message);
+  } finally {
+    hideLoading();
+  }
+});
 
 function displayFinalVerdict(verdict) {
+  finalUserPercentage.textContent = `${verdict.userPercentage}%`;
 
-    finalUserPercentage.textContent =
-        `${verdict.userPercentage}%`;
+  finalAiPercentage.textContent = `${verdict.aiPercentage}%`;
 
-    finalAiPercentage.textContent =
-        `${verdict.aiPercentage}%`;
+  requestAnimationFrame(() => {
+    finalUserBar.style.width = `${verdict.userPercentage}%`;
+  });
 
+  if (verdict.winner === "USER") {
+    finalWinner.textContent = "🏆 YOU WIN";
+  } else if (verdict.winner === "AI") {
+    finalWinner.textContent = "🏆 AI WINS";
+  } else {
+    finalWinner.textContent = "DRAW";
+  }
 
-    requestAnimationFrame(() => {
+  finalSummary.textContent = verdict.summary;
 
-        finalUserBar.style.width =
-            `${verdict.userPercentage}%`;
-    });
+  finalFactors.innerHTML = "";
 
+  verdict.decisiveFactors.forEach((factor) => {
+    const item = document.createElement("li");
 
-    if (verdict.winner === "USER") {
+    item.textContent = factor;
 
-        finalWinner.textContent =
-            "🏆 YOU WIN";
-
-    } else if (verdict.winner === "AI") {
-
-        finalWinner.textContent =
-            "🏆 AI WINS";
-
-    } else {
-
-        finalWinner.textContent =
-            "DRAW";
-    }
-
-
-    finalSummary.textContent =
-        verdict.summary;
-
-
-    finalFactors.innerHTML = "";
-
-    verdict.decisiveFactors.forEach(
-        factor => {
-
-            const item =
-                document.createElement("li");
-
-            item.textContent =
-                factor;
-
-            finalFactors.appendChild(item);
-        }
-    );
+    finalFactors.appendChild(item);
+  });
 }
 
-restartButton.addEventListener(
-    "click",
-    () => {
-
-        window.location.reload();
-    }
-);
+restartButton.addEventListener("click", () => {
+  window.location.reload();
+});
